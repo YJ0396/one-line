@@ -1,0 +1,61 @@
+/* 한 줄 v5 — 인터랙션 시안 레이어 (v4 위에 얹음) */
+.sr-only{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* 01 흔들리는 한 줄 */
+.rope-wrap{position:relative;margin:20px -4px 22px;height:170px;touch-action:none;cursor:grab}
+.rope-wrap:active{cursor:grabbing}
+#rope{display:block;width:100%;height:100%}
+.rope-hint{position:absolute;right:4px;bottom:0;font-size:12px;color:var(--muted);transition:opacity .5s}
+.rope-hint.off{opacity:0}
+
+/* 02 눈금자 나이 선택 */
+.ruler{position:relative;margin:6px 0 4px}
+.ruler-scroll{height:64px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent)}
+.ruler-scroll::-webkit-scrollbar{display:none}
+.ruler-track{display:flex;height:100%;align-items:flex-start}
+.ruler-track .pad{flex:0 0 calc(50% - 28px)}
+.ruler-track .yr{flex:0 0 56px;position:relative;scroll-snap-align:center;height:100%}
+.ruler-track .yr:before{content:'';position:absolute;left:50%;top:0;width:2px;height:26px;margin-left:-1px;background:var(--text);opacity:.7}
+.ruler-track .yr i{position:absolute;top:0;width:1px;height:12px;background:var(--muted);opacity:.5}
+.ruler-track .yr span{position:absolute;left:50%;top:32px;transform:translateX(-50%);font:500 13px var(--mono);color:var(--muted);transition:color .2s,transform .2s}
+.ruler-track .yr.on span{color:var(--orange);transform:translateX(-50%) scale(1.25);font-weight:700}
+.ruler-needle{position:absolute;top:-4px;left:50%;width:3px;height:34px;margin-left:-1.5px;background:var(--orange);border-radius:2px;pointer-events:none;box-shadow:0 0 10px rgba(255,90,31,.6)}
+.ruler-hint{font-size:12px;color:var(--muted);text-align:center;margin:0 0 18px}
+#age-out.bump{animation:bump .28s var(--ease)}
+@keyframes bump{40%{transform:scale(1.08)}}
+
+/* 03 '나' 토큰 */
+.me-token{display:flex;flex-wrap:wrap;align-items:center;gap:6px;min-height:44px;margin:0 0 14px;padding:8px 12px;border:1px dashed var(--line);border-radius:24px;font-size:15px}
+.me-token b{font:700 15px var(--mono);color:var(--orange);margin-right:2px}
+.me-token .mt-empty{color:var(--muted)}
+.me-token .mt{background:var(--orange);color:var(--ink);font-weight:700;font-size:13px;padding:4px 10px;border-radius:14px;animation:pop .38s cubic-bezier(.3,1.6,.5,1) both}
+.me-token .plus{color:var(--muted);font-size:13px}
+@keyframes pop{from{transform:scale(.3) translateY(14px);opacity:0}}
+
+/* 04 입자 */
+.fx-canvas{position:absolute;inset:-40px -10px -120px;pointer-events:none;z-index:5}
+.rail-card{overflow:visible}
+
+/* 05 숫자 굴러가기 */
+.cmp .num{font-variant-numeric:tabular-nums}
+
+/* 06 템포 재생 + 맥박 */
+.scrub-top{align-items:center;gap:10px}
+.scrub-top output{margin-left:auto}
+.play{min-height:36px;padding:0 12px;border:1px solid var(--orange);border-radius:18px;color:var(--orange);font:600 13px var(--mono)}
+.play[aria-pressed=true]{background:var(--orange);color:var(--ink)}
+.pc{position:relative}
+.pulse{position:absolute;right:10px;bottom:22px;width:8px;height:8px;border-radius:50%;background:var(--orange);animation:beat var(--bpm,1s) ease-out infinite}
+.pc.me .pulse{background:var(--paper)}
+@keyframes beat{0%{box-shadow:0 0 0 0 rgba(255,90,31,.55);transform:scale(1.25)}70%{box-shadow:0 0 0 9px rgba(255,90,31,0);transform:scale(1)}100%{box-shadow:0 0 0 0 rgba(255,90,31,0)}}
+.match-count b{display:inline-block;transition:transform .2s}
+.match-count b.tick{animation:bump .3s var(--ease)}
+
+/* 07 흔들리는 책갈피 */
+.bookmark{transform:none;touch-action:none;will-change:transform}
+.bookmark .bm-inner{transition:transform .9s var(--ease)}
+.swing-hint{text-align:center;font-size:12px;color:var(--muted);margin:-8px 0 16px}
+
+@media(prefers-reduced-motion:reduce){.pulse{animation:none}.me-token .mt{animation:none}}
+.play{min-height:44px}
+#end{overflow-x:hidden;overflow-x:clip}
